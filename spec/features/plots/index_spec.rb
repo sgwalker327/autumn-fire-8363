@@ -31,14 +31,39 @@ RSpec.describe '/plots', type: :feature do
         expect(page).to have_content(plant_1.name)
         expect(page).to have_content(plant_2.name)
         expect(page).to have_content(plant_3.name)
+        expect(page).to_not have_content(plant_4.name)
         end
 
         within "#plot-#{plot_2.id}" do
         expect(page).to have_content(plot_2.number)
         expect(page).to have_content(plant_1.name)
         expect(page).to have_content(plant_4.name)
+        expect(page).to_not have_content(plant_3.name)
         end
-        
+      end
+
+      it 'I see a link to remove a plant next to each plant name' do
+        within "#plot-#{plot_1.id}" do
+          expect(page).to have_link("Remove #{plant_1.name}")
+          expect(page).to have_link("Remove #{plant_2.name}")
+        end
+      end
+
+      it 'When I click to remove the plant, I am dedirected to the plot index and no longer see that plant in the plot' do
+        within "#plot-#{plot_1.id}" do
+          click_link("Remove #{plant_1.name}")
+        end
+          expect(current_path).to eq('/plots')
+          save_and_open_page
+        within "#plot-#{plot_1.id}" do
+          expect(page).to_not have_content(plant_1.name)
+          expect(page).to have_content(plant_2.name)
+        end
+        within "#plot-#{plot_2.id}" do
+          expect(page).to have_content(plant_1.name)
+          expect(page).to have_content(plant_4.name)
+        end
+
       end
     end
   end
