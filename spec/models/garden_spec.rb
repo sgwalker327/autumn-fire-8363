@@ -20,6 +20,7 @@ RSpec.describe Garden do
   let!(:plant_4) { Plant.create!(name: 'Lemon', description: 'Yellow', days_to_harvest: 120) }
   let!(:plant_5) { Plant.create!(name: 'Huckleberry', description: 'Purple', days_to_harvest: 70) }
   let!(:plant_6) { Plant.create!(name: 'Kale', description: 'Green', days_to_harvest: 110) }
+  let!(:plant_7) { Plant.create!(name: 'Cilantro', description: 'Green', days_to_harvest: 30) }
 
   before do
     plant_1.plot_plants.create!(plot: plot_1)
@@ -29,16 +30,18 @@ RSpec.describe Garden do
     plant_4.plot_plants.create!(plot: plot_2)
     plant_5.plot_plants.create!(plot: plot_3)
     plant_6.plot_plants.create!(plot: plot_3)
+    plant_7.plot_plants.create!(plot: plot_2)
   end
   describe '#instance_methods' do
     describe '#plant_list' do
       it 'returns a list of unique plants from the garden that take less than 100 days to harvest in order of number of appearances in garden, most to least' do
         
-        expect(garden.plant_list).to eq([plant_1, plant_2, plant_3])
-        expect(garden.plant_list).to_not eq([plant_1, plant_1, plant_2, plant_3])
-        expect(garden.plant_list).to_not eq([plant_1, plant_1, plant_2, plant_3, plant_5])
+        expect(garden.plant_list).to eq([plant_1, plant_2, plant_3, plant_7])
+        expect(garden.plant_list).to_not eq([plant_1, plant_1, plant_2, plant_3, plant_7])
+        expect(garden.plant_list).to_not eq([plant_1, plant_1, plant_2, plant_3, plant_5, plant_7])
         expect(garden.plant_list).to_not include([plant_4])
         expect(garden.plant_list).to_not include([plant_6])
+        expect(garden.plant_list).to_not include([plant_5])
       end
     end
   end

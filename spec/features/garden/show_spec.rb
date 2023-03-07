@@ -14,7 +14,8 @@ RSpec.describe '/gardens/:id', type: :feature do
   let!(:plant_4) { Plant.create!(name: 'Lemon', description: 'Yellow', days_to_harvest: 120) }
   let!(:plant_5) { Plant.create!(name: 'Huckleberry', description: 'Purple', days_to_harvest: 70) }
   let!(:plant_6) { Plant.create!(name: 'Kale', description: 'Green', days_to_harvest: 110) }
-  
+  let!(:plant_7) { Plant.create!(name: 'Cilantro', description: 'Green', days_to_harvest: 30) }
+    
   before do
     plant_1.plot_plants.create!(plot: plot_1)
     plant_2.plot_plants.create!(plot: plot_1)
@@ -23,7 +24,8 @@ RSpec.describe '/gardens/:id', type: :feature do
     plant_4.plot_plants.create!(plot: plot_2)
     plant_5.plot_plants.create!(plot: plot_3)
     plant_6.plot_plants.create!(plot: plot_3)
-    
+    plant_7.plot_plants.create!(plot: plot_2)
+
     visit garden_path(garden)
   end
 
@@ -36,6 +38,7 @@ RSpec.describe '/gardens/:id', type: :feature do
         expect(page).to have_content("Lavender - Days to Harvest: 90 days")
         expect(page).to have_content("Rosemary - Days to Harvest: 50 days")
         expect(page).to have_content("Thyme - Days to Harvest: 60 days")
+        expect(page).to have_content("Cilantro - Days to Harvest: 30 days")
         expect(page).to_not have_content("Lemon - Days to Harvest: 120 days")
         expect(page).to_not have_content("Kale - Days to Harvest: 110 days")
         expect(page).to_not have_content("Huckleberry - Days to Harvest: 70 days")

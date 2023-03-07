@@ -14,7 +14,8 @@ RSpec.describe '/plots', type: :feature do
   let!(:plant_4) { Plant.create!(name: 'Lemon', description: 'Yellow', days_to_harvest: 120) }
   let!(:plant_5) { Plant.create!(name: 'Huckleberry', description: 'Purple', days_to_harvest: 70) }
   let!(:plant_6) { Plant.create!(name: 'Kale', description: 'Green', days_to_harvest: 110) }
-  
+  let!(:plant_7) { Plant.create!(name: 'Cilantro', description: 'Green', days_to_harvest: 30) }
+    
   before do
     plant_1.plot_plants.create!(plot: plot_1)
     plant_2.plot_plants.create!(plot: plot_1)
@@ -23,7 +24,8 @@ RSpec.describe '/plots', type: :feature do
     plant_4.plot_plants.create!(plot: plot_2)
     plant_5.plot_plants.create!(plot: plot_3)
     plant_6.plot_plants.create!(plot: plot_3)
-    
+    plant_7.plot_plants.create!(plot: plot_2)
+
     visit plots_path
   end
   # require 'pry'; binding.pry
@@ -38,12 +40,18 @@ RSpec.describe '/plots', type: :feature do
           expect(page).to have_content("Rosemary")
           expect(page).to have_content("Thyme")
           expect(page).to_not have_content("Lemon")
+          expect(page).to_not have_content("Huckleberry")
+          expect(page).to_not have_content("Kale")
         end
 
         within "#plot-#{plot_2.id}" do
           expect(page).to have_content("Plot Number: 19")
+          expect(page).to have_content("Lavender")
           expect(page).to have_content("Lemon")
+          expect(page).to have_content("Cilantro")
           expect(page).to_not have_content("Thyme")
+          expect(page).to_not have_content("Huckleberry")
+          expect(page).to_not have_content("Kale")
         end
 
         within "#plot-#{plot_3.id}" do
@@ -58,6 +66,7 @@ RSpec.describe '/plots', type: :feature do
         within "#plot-#{plot_1.id}" do
           expect(page).to have_link("Remove Lavender")
           expect(page).to have_link("Remove Rosemary")
+          expect(page).to have_link("Remove Thyme")
         end
       end
 
@@ -72,11 +81,13 @@ RSpec.describe '/plots', type: :feature do
         within "#plot-#{plot_1.id}" do
           expect(page).to_not have_content("Lavender")
           expect(page).to have_content("Rosemary")
+          expect(page).to have_content("Thyme")
         end
-        
+
         within "#plot-#{plot_2.id}" do
           expect(page).to have_content("Lavender")
           expect(page).to have_content("Lemon")
+          expect(page).to have_content("Cilantro")
         end
       end
     end
