@@ -102,6 +102,6 @@ Extension 1
 
 As a visitor
 When I visit a garden's show page,
-Then I see the list of plants is sorted by the number of plants that appear in any of that garden's plots from most to least
+Then I see the list of plants is sorted by the number of times the plant appears in any of that garden's plots from most to least
 (Note: you should only make 1 database query to retrieve the sorted list of plants)
 ```
