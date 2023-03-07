@@ -54,7 +54,7 @@ RSpec.describe '/plots', type: :feature do
           click_link("Remove #{plant_1.name}")
         end
           expect(current_path).to eq('/plots')
-          save_and_open_page
+          
         within "#plot-#{plot_1.id}" do
           expect(page).to_not have_content(plant_1.name)
           expect(page).to have_content(plant_2.name)
