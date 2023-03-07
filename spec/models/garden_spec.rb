@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Garden do
+RSpec.describe Garden, type: :model do
   describe 'relationships' do
     it { should have_many(:plots) }
     it { should have_many(:plot_plants).through(:plots) } 
@@ -32,10 +32,11 @@ RSpec.describe Garden do
     plant_6.plot_plants.create!(plot: plot_3)
     plant_7.plot_plants.create!(plot: plot_2)
   end
+
   describe '#instance_methods' do
     describe '#plant_list' do
       it 'returns a list of unique plants from the garden that take less than 100 days to harvest in order of number of appearances in garden, most to least' do
-        
+
         expect(garden.plant_list).to eq([plant_1, plant_2, plant_3, plant_7])
         expect(garden.plant_list).to_not eq([plant_1, plant_1, plant_2, plant_3, plant_7])
         expect(garden.plant_list).to_not eq([plant_1, plant_1, plant_2, plant_3, plant_5, plant_7])

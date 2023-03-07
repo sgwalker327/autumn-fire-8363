@@ -22,18 +22,18 @@ RSpec.describe '/plots', type: :feature do
     plant_3.plot_plants.create!(plot: plot_1)
     plant_1.plot_plants.create!(plot: plot_2)
     plant_4.plot_plants.create!(plot: plot_2)
+    plant_2.plot_plants.create!(plot: plot_2)
     plant_5.plot_plants.create!(plot: plot_3)
     plant_6.plot_plants.create!(plot: plot_3)
     plant_7.plot_plants.create!(plot: plot_2)
 
     visit plots_path
   end
-  # require 'pry'; binding.pry
+  
   describe 'As a visitor' do
     context 'When I visit the plots index page' do
       it 'I see a list of all plot numbers and their plants listed underneath' do
 
-        
         within "#plot-#{plot_1.id}" do
           expect(page).to have_content("Plot Number: 25")
           expect(page).to have_content("Lavender")
@@ -47,6 +47,7 @@ RSpec.describe '/plots', type: :feature do
         within "#plot-#{plot_2.id}" do
           expect(page).to have_content("Plot Number: 19")
           expect(page).to have_content("Lavender")
+          expect(page).to have_content("Rosemary")
           expect(page).to have_content("Lemon")
           expect(page).to have_content("Cilantro")
           expect(page).to_not have_content("Thyme")
@@ -77,7 +78,7 @@ RSpec.describe '/plots', type: :feature do
         end
 
         expect(current_path).to eq(plots_path)
-          
+
         within "#plot-#{plot_1.id}" do
           expect(page).to_not have_content("Lavender")
           expect(page).to have_content("Rosemary")
@@ -88,6 +89,23 @@ RSpec.describe '/plots', type: :feature do
           expect(page).to have_content("Lavender")
           expect(page).to have_content("Lemon")
           expect(page).to have_content("Cilantro")
+          expect(page).to have_content("Rosemary")
+          click_link("Remove Rosemary")
+        end
+
+        expect(current_path).to eq(plots_path)
+
+        within "#plot-#{plot_2.id}" do
+          expect(page).to have_content("Lavender")
+          expect(page).to have_content("Lemon")
+          expect(page).to have_content("Cilantro")
+          expect(page).to_not have_content("Rosemary")
+        end
+
+        within "#plot-#{plot_1.id}" do
+          expect(page).to_not have_content("Lavender")
+          expect(page).to have_content("Rosemary")
+          expect(page).to have_content("Thyme")
         end
       end
     end
