@@ -39,6 +39,8 @@ RSpec.describe '/gardens/:id', type: :feature do
         expect(page).to_not have_content("Lemon - Days to Harvest: 120 days")
         expect(page).to_not have_content("Kale - Days to Harvest: 110 days")
         expect(page).to_not have_content("Huckleberry - Days to Harvest: 70 days")
+        expect("Lavender - Days to Harvest: 90 days").to appear_before("Rosemary - Days to Harvest: 50 days")
+        expect("Thyme - Days to Harvest: 60 days").to_not appear_before("Lavender - Days to Harvest: 90 days")
       end
     end
   end
